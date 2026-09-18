@@ -175,48 +175,86 @@ function initBookingForm() {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const name = document.getElementById('client-name')?.value.trim() || '';
-    const phone = document.getElementById('client-phone')?.value.trim() || '';
-    const procedure = document.getElementById('client-procedure')?.value || 'Não informado';
-    const period = document.getElementById('client-period')?.value || 'Sem preferência';
-    const message = document.getElementById('client-message')?.value.trim() || '';
+    const nameInput = document.getElementById('client-name');
+    const phoneInput = document.getElementById('client-phone');
+    const procedureSelect = document.getElementById('client-procedure');
+    const periodSelect = document.getElementById('client-period');
+    const messageInput = document.getElementById('client-message');
+
+    const name = nameInput ? nameInput.value.trim() : '';
+    const phone = phoneInput ? phoneInput.value.trim() : '';
+    const procedure = procedureSelect ? procedureSelect.value : 'Avaliação Geral';
+    const period = periodSelect ? periodSelect.value : 'Sem preferência';
+    const message = messageInput ? messageInput.value.trim() : '';
 
     if (!name || !phone) {
-      alert('Por favor, preencha seu nome e telefone para contato.');
+      alert('Por favor, informe seu nome e telefone/WhatsApp.');
       return;
     }
 
-    // Monta a mensagem personalizada e educada para a recepção da Guarnieri Odontologia
-    let text = `Olá! Gostaria de agendar uma consulta na *Guarnieri Odontologia e Estética*.\n\n`;
-    text += `👤 *Nome:* ${name}\n`;
-    text += `📱 *Telefone:* ${phone}\n`;
-    text += `🦷 *Tratamento de Interesse:* ${procedure}\n`;
-    text += `⏰ *Preferência de Horário:* ${period}\n`;
+    // Monta o texto formatado para o WhatsApp com quebras de linha limpas
+    const lines = [
+      'Olá! Gostaria de agendar uma consulta na *Guarnieri Odontologia e Estética*.',
+      '',
+      `👤 *Nome:* ${name}`,
+      `📱 *Telefone:* ${phone}`,
+      `🦷 *Tratamento:* ${procedure}`,
+      `⏰ *Período:* ${period}`
+    ];
 
     if (message) {
-      text += `💬 *Observação:* ${message}\n`;
+      lines.push(`💬 *Mensagem:* ${message}`);
     }
 
-    text += `\nEnviado através do website oficial.`;
+    lines.push('', 'Enviado pelo site oficial.');
 
+    const text = lines.join('\n');
     const encodedText = encodeURIComponent(text);
-    const whatsappUrl = `https://wa.me/5515996019128?text=${encodedText}`;
+    
+    // api.whatsapp.com garante compatibilidade total no celular e desktop (WhatsApp Web)
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=5515996019128&text=${encodedText}`;
 
-    // Abre o WhatsApp em nova aba
-    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    // Dispara a abertura através de elemento link nativo (evita bloqueio de pop-up do navegador)
+    const tempLink = document.createElement('a');
+    tempLink.href = whatsappUrl;
+    tempLink.target = '_blank';
+    tempLink.rel = 'noopener noreferrer';
+    document.body.appendChild(tempLink);
+    tempLink.click();
+    setTimeout(() => {
+      tempLink.remove();
+    }, 100);
 
-    // Mensagem amigável de retorno
+    // Feedback visual imediato e botão de contingência se o navegador bloquear
     const submitBtn = form.querySelector('button[type="submit"]');
     if (submitBtn) {
       const originalText = submitBtn.innerHTML;
       submitBtn.innerHTML = `✓ Abrindo WhatsApp...`;
-      submitBtn.disabled = true;
+      submitBtn.style.backgroundColor = '#25D366';
+      submitBtn.style.color = '#FFFFFF';
+
+      // Mostra mensagem de apoio com link caso o pop-up tenha sido bloqueado
+      let feedbackEl = document.getElementById('whatsapp-feedback-msg');
+      if (!feedbackEl) {
+        feedbackEl = document.createElement('div');
+        feedbackEl.id = 'whatsapp-feedback-msg';
+        feedbackEl.style.marginTop = '1rem';
+        feedbackEl.style.padding = '0.85rem';
+        feedbackEl.style.borderRadius = '8px';
+        feedbackEl.style.backgroundColor = 'rgba(37, 211, 102, 0.12)';
+        feedbackEl.style.border = '1px solid #25D366';
+        feedbackEl.style.fontSize = '0.875rem';
+        feedbackEl.style.textAlign = 'center';
+        form.appendChild(feedbackEl);
+      }
+
+      feedbackEl.innerHTML = `Mensagem gerada! Se o WhatsApp não abriu sozinho, <a href="${whatsappUrl}" target="_blank" rel="noopener noreferrer" style="color: #128c7e; font-weight: 700; text-decoration: underline;">clique aqui para enviar</a>.`;
 
       setTimeout(() => {
         submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-        form.reset();
-      }, 3000);
+        submitBtn.style.backgroundColor = '';
+        submitBtn.style.color = '';
+      }, 4000);
     }
   });
 }
