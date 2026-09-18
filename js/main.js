@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFaqAccordion();
   initBookingForm();
   initSmoothScroll();
+  initMapSwitcher();
 });
 
 /**
@@ -282,5 +283,31 @@ function initSmoothScroll() {
         });
       }
     });
+  });
+}
+
+/**
+ * 8. Alternador entre Mapa Convencional e Tour Virtual 360° (VR)
+ */
+function initMapSwitcher() {
+  const btnMap = document.getElementById('btn-show-map');
+  const btnVr = document.getElementById('btn-show-vr');
+  const iframe = document.getElementById('maps-iframe');
+
+  if (!btnMap || !btnVr || !iframe) return;
+
+  const mapUrl = 'https://maps.google.com/maps?q=Guarnieri+Odontologia+e+Est%C3%A9tica,+Rua+Sete+de+Setembro,+314+-+Centro,+Ara%C3%A7oiaba+da+Serra+-+SP&t=&z=17&ie=UTF8&iwloc=B&output=embed';
+  const vrUrl = 'https://maps.google.com/maps?layer=c&cbll=-23.5055414,-47.6178502&cbp=12,20,,0,0&output=svembed';
+
+  btnMap.addEventListener('click', () => {
+    btnMap.classList.add('active');
+    btnVr.classList.remove('active');
+    iframe.src = mapUrl;
+  });
+
+  btnVr.addEventListener('click', () => {
+    btnVr.classList.add('active');
+    btnMap.classList.remove('active');
+    iframe.src = vrUrl;
   });
 }
