@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initBookingForm();
   initSmoothScroll();
   initMapSwitcher();
+  initVideoSound();
 });
 
 /**
@@ -293,21 +294,57 @@ function initMapSwitcher() {
   const btnMap = document.getElementById('btn-show-map');
   const btnVr = document.getElementById('btn-show-vr');
   const iframe = document.getElementById('maps-iframe');
+  const vrOverlay = document.getElementById('vr-overlay');
 
   if (!btnMap || !btnVr || !iframe) return;
-
-  const mapUrl = 'https://maps.google.com/maps?q=Guarnieri+Odontologia+e+Est%C3%A9tica,+Rua+Sete+de+Setembro,+314+-+Centro,+Ara%C3%A7oiaba+da+Serra+-+SP&t=&z=17&ie=UTF8&iwloc=B&output=embed';
-  const vrUrl = 'https://maps.google.com/maps?layer=c&cbll=-23.5055414,-47.6178502&cbp=12,20,,0,0&output=svembed';
 
   btnMap.addEventListener('click', () => {
     btnMap.classList.add('active');
     btnVr.classList.remove('active');
-    iframe.src = mapUrl;
+    iframe.style.display = '';
+    if (vrOverlay) vrOverlay.classList.remove('visible');
   });
 
   btnVr.addEventListener('click', () => {
     btnVr.classList.add('active');
     btnMap.classList.remove('active');
-    iframe.src = vrUrl;
+    iframe.style.display = 'none';
+    if (vrOverlay) vrOverlay.classList.add('visible');
+  });
+}
+
+
+/**
+ * 9. Controle de Som do Vídeo Hero
+ * Alterna entre mudo e com áudio no botão de som do vídeo da hero section
+ */
+function initVideoSound() {
+  const btn = document.getElementById('btn-toggle-sound');
+  const video = document.getElementById('hero-video');
+  const iconMuted = document.getElementById('icon-sound-muted');
+  const iconOn = document.getElementById('icon-sound-on');
+  const soundText = document.getElementById('sound-btn-text');
+
+  if (!btn || !video) return;
+
+  btn.addEventListener('click', () => {
+    video.muted = !video.muted;
+
+    if (video.muted) {
+      // Voltou ao mudo
+      if (iconMuted) iconMuted.style.display = '';
+      if (iconOn) iconOn.style.display = 'none';
+      if (soundText) soundText.textContent = 'Ativar Som';
+      btn.setAttribute('aria-label', 'Ativar som do vídeo');
+    } else {
+      // Som ativado
+      if (iconMuted) iconMuted.style.display = 'none';
+      if (iconOn) iconOn.style.display = '';
+      if (soundText) soundText.textContent = 'Silenciar';
+      btn.setAttribute('aria-label', 'Silenciar vídeo');
+
+      // Garante que o vídeo está rodando ao ativar o som
+      if (video.paused) video.play().catch(() => {});
+    }
   });
 }

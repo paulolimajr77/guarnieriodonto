@@ -192,13 +192,32 @@
               </div>
             </div>
 
-            <div class="hero-image-card">
-              <img src="assets/dra_liliane.jpg" alt="Dra. Liliane Moran Guarnieri na clínica Guarnieri Odontologia" loading="eager">
+            <div class="hero-video-card">
+              <video 
+                id="hero-video" 
+                class="hero-video-element" 
+                autoplay 
+                muted 
+                loop 
+                playsinline 
+                preload="auto"
+                poster="assets/consultorio_real.jpg">
+                <source src="assets/apresentacao.mp4" type="video/mp4">
+                Seu navegador não suporta vídeos HTML5.
+              </video>
               
+              <div class="hero-video-controls">
+                <button type="button" class="video-control-btn" id="btn-toggle-sound" aria-label="Ativar ou desativar som do vídeo">
+                  <svg id="icon-sound-muted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                  <svg id="icon-sound-on" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                  <span id="sound-btn-text">Ativar Som</span>
+                </button>
+              </div>
+
               <div class="hero-floating-badge">
                 <div class="badge-info">
-                  <div class="badge-info-title">Dra. Liliane Moran Guarnieri</div>
-                  <div class="badge-info-subtitle">Cirurgiã-Dentista • CRO/SP 37454</div>
+                  <div class="badge-info-title">Guarnieri Odontologia e Estética</div>
+                  <div class="badge-info-subtitle">Dra. Raquel • Equipe Especializada</div>
                 </div>
                 <div class="badge-icon-wrap" title="Monograma Guarnieri">
                   <img src="assets/icon.svg" alt="Monograma G" style="width: 24px; height: 24px;">
@@ -821,15 +840,36 @@
                 </a>
               </div>
 
-              <div class="map-container">
+              <div class="map-container" style="position:relative;">
                 <iframe 
                   id="maps-iframe"
                   src="https://maps.google.com/maps?q=Guarnieri+Odontologia+e+Est%C3%A9tica,+Rua+Sete+de+Setembro,+314+-+Centro,+Ara%C3%A7oiaba+da+Serra+-+SP&t=&z=17&ie=UTF8&iwloc=B&output=embed" 
-                  title="Localização e Tour Virtual 360 da Guarnieri Odontologia no Google Maps" 
+                  title="Localização da Guarnieri Odontologia no Google Maps" 
                   allowfullscreen="" 
                   loading="lazy" 
                   referrerpolicy="no-referrer-when-downgrade">
                 </iframe>
+
+                <!-- Overlay do Tour Virtual 360° -->
+                <div class="vr-overlay" id="vr-overlay">
+                  <div class="vr-overlay-inner">
+                    <div class="vr-globe-icon">
+                      <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    </div>
+                    <h4 class="vr-overlay-title">Tour Virtual 360° — Interior da Clínica</h4>
+                    <p class="vr-overlay-text">Explore o consultório da Guarnieri Odontologia e Estética em uma visita virtual imersiva pelo Google Maps.</p>
+                    <a 
+                      href="https://www.google.com/maps/place/Guarnieri+Odontologia+e+Est%C3%A9tica/@-23.5054444,-47.6178361,3a,75y,108.62h,83.65t/data=!3m8!1e1!3m6!1sCIHM0ogKEICAgICKiYyo6QE!2e10!3e2!6shttps:%2F%2Flh3.googleusercontent.com%2Fgpms-cs-s%2FAFP8RcP5iwPteibilC2rV6dhGn8SqDay0h_kBTvJD01o124oNuKxAVyRDcbUfo2TQBQ2YROerDqKk-BLjJ85VuG0pNVQI2CBfuikHMMxMO5GBDwFl_q4j3JeUP8bi0KsW30c04M4vyfg%3Dw900-h600-k-no-pi6.352255627130262-ya108.61900485729554-ro0-fo100!7i5760!8i2880!4m16!1m8!3m7!1s0x94c5ed70e562376b:0x7927f9211bf4459b!2sR.+Sete+de+Setembro,+314+-+Centro,+Ara%C3%A7oiaba+da+Serra+-+SP,+18190-000,+Brasil!3b1!8m2!3d-23.5055979!4d-47.6177758!16s%2Fg%2F11pw0x8k80!3m6!1s0x94c5ed7a62daaf13:0x8e787d6fa9a5c04f!8m2!3d-23.5055414!4d-47.6178502!10e5!16s%2Fg%2F11cmdqnncf?hl=pt-BR&entry=ttu" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      class="btn btn-accent vr-cta-btn"
+                      id="vr-open-btn">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                      Abrir Tour 360° no Google Maps
+                    </a>
+                    <p class="vr-overlay-hint">Abre em nova aba • Compatível com celular e computador</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
